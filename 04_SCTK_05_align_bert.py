@@ -6,11 +6,10 @@ from tqdm import tqdm
 
 DATA_DIR = Path("/home/matsuura/Development/app/feature_extraction_api/experiment/data")
 
-# TASK = ["Arg_Oly", "Cartoon", "RtSwithoutRAA", "RtSwithRAA", "WoZ_Interview"]
-TASK = ["WoZ_Interview"]
+TASK = ["Arg_Oly", "Cartoon", "RtSwithoutRAA", "RtSwithRAA", "WoZ_Interview"]
 IGNORE_TAGS = [
-    # ["<CI>", "<CE>", "<FILLER>"], # for disfluency alignment
-    # ["<CI>", "<CE>"], # for disfluency alignment 2
+    ["<CI>", "<CE>", "<FILLER>"], # for disfluency alignment
+    ["<CI>", "<CE>"], # for disfluency alignment 2
     ["<DISFLUENCY>", "<FILLER>"] # for pause location alignment
 ]
 FILLER = {"uh", "ah", "um", "mm", "hmm", "oh", "mm-hmm", "er", "mhm", "uh-huh", "er", "erm", "huh", "uhu", "mmhmm", "uhhuh"}
@@ -21,7 +20,7 @@ def sctk_input_csv_path_generator(task: str) -> Generator[Tuple[Path, Path], Non
 
     for manu_csv_path in load_dir.glob("*_manu.csv"):
         filename = manu_csv_path.stem.removesuffix("_manu")
-        auto_csv_path = load_dir / f"{filename}_auto.csv"
+        auto_csv_path = load_dir / f"{filename}_auto_bert.csv"
 
         yield manu_csv_path, auto_csv_path
 
@@ -71,7 +70,7 @@ if __name__ == "__main__":
 
             for ignore_tag in IGNORE_TAGS:
                 filename = f"{hyp_csv_path.stem.removesuffix('_auto')}_ignore_{'-'.join(ignore_tag)}"
-                save_path = DATA_DIR / f"{task}/11_SCTK_Outputs/{filename}.txt"
+                save_path = DATA_DIR / f"{task}/11_SCTK_Outputs/{filename}_bert.txt"
                 if save_path.exists():
                     continue
 
