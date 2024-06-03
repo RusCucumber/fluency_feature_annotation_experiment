@@ -29,7 +29,7 @@ class ManyFacetRaschAnalyzer:
         if self.__debug:
             self._r('summary(model)')
 
-        self._r('rater_estimates <- model&xsi')
+        self._r('rater_estimates <- model$xsi')
         self._r('tam.fit(model)')
         self._r('threshold <- tam.threshold(model)')
         self._r('person_ability <- tam.wle(model)')
